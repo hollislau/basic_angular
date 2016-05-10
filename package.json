@@ -1,0 +1,31 @@
+{
+  "name": "basic_angular",
+  "version": "0.1.0",
+  "description": "A basic angular app with webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hollislau/basic_angular.git"
+  },
+  "author": {
+    "name": "Hollis Lau",
+    "email": "hollislau@hotmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hollislau/basic_angular/issues"
+  },
+  "homepage": "https://github.com/hollislau/basic_angular#readme",
+  "devDependencies": {
+    "angular": "^1.5.5",
+    "gulp": "^3.9.1",
+    "webpack-stream": "^3.2.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
