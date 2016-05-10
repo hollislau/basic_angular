@@ -3,6 +3,7 @@ const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
 
 var lintFiles = ["app/**/*.js", "gulpfile.js", "index.js", "server.js"];
+var staticFiles = ["app/**/*.html", "app/**/*.css"];
 
 gulp.task("lint", () => {
   return gulp.src(lintFiles)
@@ -17,14 +18,14 @@ gulp.task("webpack:dev", () => {
   return gulp.src("app/js/entry.js")
     .pipe(webpack({
       output: {
-        filename: "bundle.js"
+        filename: "main.js"
       }
     }))
-    .pipe(gulp.dest("build"));
+    .pipe(gulp.dest("build/js"));
 });
 
 gulp.task("static:dev", () => {
-  return gulp.src("app/**/*.html")
+  return gulp.src(staticFiles)
     .pipe(gulp.dest("build"));
 });
 

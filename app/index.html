@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Angular App</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-ng-app="sweetApp">
+  <main data-ng-controller="GreetCtrl">
+    <h1>{{greeting}}</h1>
+    <input type="text" data-ng-model="greeting">
+    <button data-ng-click="greetDel()">Delete</button>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>
