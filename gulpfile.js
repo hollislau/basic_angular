@@ -11,12 +11,13 @@ gulp.task("lint", () => {
       useEslintrc: true
     }))
     .pipe(eslint.format())
-    .pipe(eslint.failOnError());
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task("webpack:dev", () => {
   return gulp.src("app/js/entry.js")
     .pipe(webpack({
+      devtool: "source-map",
       output: {
         filename: "main.js"
       }
