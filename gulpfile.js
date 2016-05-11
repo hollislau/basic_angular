@@ -2,14 +2,20 @@ const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
 
-var lintFiles = ["app/**/*.js", "gulpfile.js", "index.js", "server.js"];
+var lintClientFiles = ["app/**/*.js"];
+var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
 var staticFiles = ["app/**/*.html", "app/**/*.css"];
 
-gulp.task("lint", () => {
-  return gulp.src(lintFiles)
-    .pipe(eslint({
-      useEslintrc: true
-    }))
+gulp.task("lintClient", () => {
+  return gulp.src(lintClientFiles)
+  .pipe(eslint("app/.eslintrc.json"))
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError());
+});
+
+gulp.task("lintServer", () => {
+  return gulp.src(lintServerFiles)
+    .pipe(eslint(".eslintrc.json"))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
@@ -30,5 +36,6 @@ gulp.task("static:dev", () => {
     .pipe(gulp.dest("build"));
 });
 
+gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
 gulp.task("default", ["lint", "build:dev"]);
