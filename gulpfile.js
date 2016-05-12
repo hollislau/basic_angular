@@ -1,10 +1,13 @@
 const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
+const protractor = require("gulp-protractor").protractor;
+const webdriverUpdate = require("gulp-protractor").webdriver_update;
 
-var lintClientFiles = ["app/**/*.js"];
+var lintClientFiles = ["app/**/*.js", "test/integration/**/*.js"];
 var lintServerFiles = ["gulpfile.js", "index.js", "server.js"];
 var staticFiles = ["app/**/*.html", "app/**/*.css"];
+var protractorFiles = ["test/integration/*_spec.js"];
 
 gulp.task("lintClient", () => {
   return gulp.src(lintClientFiles)
@@ -36,6 +39,15 @@ gulp.task("static:dev", () => {
     .pipe(gulp.dest("build"));
 });
 
+gulp.task("webdriverUpdate", webdriverUpdate);
+
+gulp.task("protractor", ["build:dev", "webdriverUpdate"], () => {
+  return gulp.src(protractorFiles)
+    .pipe(protractor({
+      configFile: "test/integration/config.js"
+    }));
+});
+
 gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
-gulp.task("default", ["lint", "build:dev"]);
+gulp.task("default", ["lint", "build:dev", "webdriverUpdate", "protractor"]);
