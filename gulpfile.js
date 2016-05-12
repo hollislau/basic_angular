@@ -46,10 +46,7 @@ gulp.task("protractor", ["build:dev", "webdriverUpdate"], () => {
   return gulp.src(protractorFiles)
     .pipe(protractor({
       configFile: "test/integration/config.js"
-    }))
-    .on("error", (err) => {
-      throw err;
-    });
+    }));
 });
 
 gulp.task("lint", ["lintClient", "lintServer"]);
@@ -61,7 +58,6 @@ gulp.task("develop", () => {
     script: "server.js",
     ext: "js html css",
     ignore: ["build/**/*", "node_modules/**/*"]
-    // tasks: ["lint", "test"]
   })
   .on("start", ["lint", "test"])
   .on("change", ["lint", "test"])

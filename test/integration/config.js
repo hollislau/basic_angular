@@ -1,8 +1,22 @@
+const fs = require("fs");
+
+function findSeleniumJar() {
+  var seleniumPath = "../../node_modules/gulp-protractor/node_modules/protractor/selenium/";
+  var seleniumFiles = fs.readdirSync(__dirname + "/" + seleniumPath);
+  var seleniumJar;
+
+  for (var i = seleniumFiles.length - 1; i >= 0; i--) {
+    if (seleniumFiles[i].endsWith(".jar")) {
+      seleniumJar = seleniumPath + seleniumFiles[i];
+    }
+  }
+
+  return seleniumJar;
+}
+
 module.exports = exports = {
   config: {
-    seleniumServerJar:
-      "../../node_modules/gulp-protractor/node_modules/protractor/selenium/" +
-      "selenium-server-standalone-2.52.0.jar",
+    seleniumServerJar: findSeleniumJar(),
     specs: ["greet_spec.js"]
   }
 };
