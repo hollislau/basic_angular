@@ -1,6 +1,7 @@
 const gulp = require("gulp");
 const eslint = require("gulp-eslint");
 const webpack = require("webpack-stream");
+const nodemon = require("gulp-nodemon");
 const protractor = require("gulp-protractor").protractor;
 const webdriverUpdate = require("gulp-protractor").webdriver_update;
 
@@ -45,9 +46,28 @@ gulp.task("protractor", ["build:dev", "webdriverUpdate"], () => {
   return gulp.src(protractorFiles)
     .pipe(protractor({
       configFile: "test/integration/config.js"
-    }));
+    }))
+    .on("error", (err) => {
+      throw err;
+    });
 });
 
 gulp.task("lint", ["lintClient", "lintServer"]);
 gulp.task("build:dev", ["webpack:dev", "static:dev"]);
-gulp.task("default", ["lint", "build:dev", "webdriverUpdate", "protractor"]);
+gulp.task("test", ["protractor"]);
+
+gulp.task("develop", () => {
+  nodemon({
+    script: "server.js",
+    ext: "js html css",
+    ignore: ["build/**/*", "node_modules/**/*"]
+    // tasks: ["lint", "test"]
+  })
+  .on("start", ["lint", "test"])
+  .on("change", ["lint", "test"])
+  .on("restart", () => {
+    process.stdout.write("Server restarted!\n");
+  });
+});
+
+gulp.task("default", ["develop"]);
